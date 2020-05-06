@@ -64,6 +64,12 @@ module.exports = {
       gasPrice: Math.floor(gasPriceTestnet * 1.1),
       networkCheckTimeout: 1e9,
     },
+    regtest: {
+      host: '127.0.0.1',
+      port: 4444,
+      network_id: 33,
+      networkCheckTimeout: 1e3,
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
