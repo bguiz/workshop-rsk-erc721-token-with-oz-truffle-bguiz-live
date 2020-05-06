@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import Web3 from 'web3';
 import './App.css';
+import Colours from './contracts/Colours.json';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function colourHexToString(hexStr) {
+  return '#' + hexStr.substring(2);
 }
 
-export default App;
+function colourStringToBytes(str) {
+  if (str.length !== 7 || str.charAt(0) !== '#') {
+    throw new Error('invalid colour string');
+  }
+  const hexStr = '0x' + str.substring(1);
+  return Web3.utils.hexToBytes(hexStr);
+}
