@@ -86,6 +86,19 @@ class App extends Component {
     }
   }
 
+  mint = (colourStr) => {
+    const colourBytes = colourStringToBytes(colourStr);
+    this.state.contract.methods
+      .mint(colourBytes)
+      .send({ from: this.state.account })
+      .once('receipt', (receipt) => {
+        console.log ('transaction receipt: ', receipt)
+        this.setState({
+          colours: [...this.state.colours, colourStr],
+        });
+      });
+  }
+
 }
 
 export default App;
