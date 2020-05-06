@@ -49,6 +49,43 @@ class App extends Component {
     }
     console.log(window.web3.currentProvider);
   }
+
+  async loadBlockchainData() {
+    const web3 = window.web3;
+
+    // Load account
+    const accounts = await web3.eth.getAccounts();
+    console.log ('account: ', accounts[0]);
+    this.setState({ account: accounts[0] });
+
+    const networkId = await web3.eth.net.getId();
+    const networkData = Colours.networks[networkId];
+    if (!networkData) {
+      window.alert('Smart contract not deployed to detected network.');
+      return;
+    }
+
+    const abi = Colours.abi;
+    const address = networkData.address;
+
+    const contract = new web3.eth.Contract(abi, address);
+    this.setState({ contract });
+
+    const totalSupply = await contract
+      .methods.totalSupply().call();
+    this.setState({ totalSupply });
+
+    // Load Colors
+    for (var i = 1; i <= totalSupply; i++) {
+      const colourBytes = await contract
+        .methods.colours(i - 1).call();
+      const colourStr = colourHexToString(colourBytes);
+      this.setState({
+        colours: [...this.state.colours, colourStr],
+      });
+    }
+  }
+
 }
 
 export default App;
