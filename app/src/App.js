@@ -14,3 +14,24 @@ function colourStringToBytes(str) {
   const hexStr = '0x' + str.substring(1);
   return Web3.utils.hexToBytes(hexStr);
 }
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: '',
+      contract: null,
+      totalSupply: 0,
+      colours: [],
+    };
+  }
+
+  async componentWillMount() {
+    await this.loadWeb3();
+    await this.loadBlockchainData();
+  }
+
+}
+
+export default App;
